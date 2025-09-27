@@ -4,7 +4,7 @@
 #include "Windows.h"
 
 
-namespace TCYK
+namespace CFT
 {
 	constexpr const char* Default_Color_Code	=	"\033[0m";
 	constexpr const char* Error_Color_Code		=	"\033[31m";
