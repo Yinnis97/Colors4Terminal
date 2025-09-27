@@ -20,14 +20,15 @@ namespace CFT
 	constexpr const char* Warning_Color_Code	=	"\033[38;2;255;160;0m";
 	constexpr const char* Blinking_Code			=	"\033[5m";
 	constexpr const char* CrossedOut_Code		=	"\033[9m";
+	constexpr const char* BellNoise_Code		=	"\a";
 
 	// **************************
 	// ******* FUNCTIONS ********
 	// **************************
-	
 
-	//	Needs to be called at the start.
-	//	This makes sure the Virtual Terminal is Enabled.
+
+	// Needs to be called at the start.
+	// This makes sure the Virtual Terminal is Enabled.
 
 	void EnableVirtualTerminal() 
 	{
@@ -37,6 +38,16 @@ namespace CFT
 		SetConsoleMode(hOut, dwMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
 	}
 
+	bool SupportsANSI() 
+	{
+		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+		if (hOut == INVALID_HANDLE_VALUE) return false;
+
+		DWORD dwMode = 0;
+		if (!GetConsoleMode(hOut, &dwMode)) return false;
+
+		return (dwMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+	}
 
 	// Show Error message by default :
 	// Example : Error : "message".
@@ -44,17 +55,19 @@ namespace CFT
 	// 
 	// Parameters :
 	// Input 1 (const char*)	: The Error message.
-	// Input 2 (bool)			: turn message in same color as Error color.
-	// Input 3 (bool)			: turn blinking on or off.
+	// Input 2 (bool)			: Turn message in same color as Error color.
+	// Input 3 (bool)			: Makes a sound as well as a msg.
+	// Input 4 (bool)			: Turn blinking on or off.
 	// Output (void)			: No return value.
 
-	void ErrorMessage(const char* msg, bool C_msg = 0, bool blink = 0)
+	void ErrorMessage(const char* msg, bool C_msg = 0, bool b_noise = 0, bool blink = 0)
 	{
-		std::cout << Error_Color_Code 
-			<< (blink ? Blinking_Code : "") 
+		std::cout << Error_Color_Code
+			<< (blink ? Blinking_Code : "")
 			<< "Error : "
-			<< (C_msg ? Error_Color_Code : Default_Color_Code) 
-			<< msg 
+			<< (C_msg ? Error_Color_Code : Default_Color_Code)
+			<< msg
+			<< (b_noise ? BellNoise_Code : "")
 			<< Default_Color_Code 
 			<< std::endl;
 	}
@@ -66,8 +79,8 @@ namespace CFT
 	// 
 	// Parameters :
 	// Input 1 (const char*)	: The Warning message.
-	// Input 2 (bool)			: turn message in same color as Warning color.
-	// Input 3 (bool)			: turn blinking on or off.
+	// Input 2 (bool)			: Turn message in same color as Warning color.
+	// Input 3 (bool)			: Turn blinking on or off.
 	// Output (void)			: No return value.
 
 	void WarningMessage(const char* msg, bool C_msg = 0, bool blink = 0)
@@ -162,4 +175,6 @@ namespace CFT
 
 		return rgb_ss.str();
 	}
+
+
 }

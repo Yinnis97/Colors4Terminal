@@ -7,8 +7,9 @@ int main()
 	CFT::EnableVirtualTerminal();
 
 	CFT::ErrorMessage("Message");
-	CFT::ErrorMessage("Message in red", 1, 0);
-	CFT::ErrorMessage("Error is blinking", 0, 1);
+	CFT::ErrorMessage("Message in red", 1, 0, 0);
+	CFT::ErrorMessage("Error is blinking", 0, 0, 1);
+	CFT::ErrorMessage("Error makes a bell sound", 0, 1, 0);
 
 	CFT::WarningMessage("Message");
 	CFT::WarningMessage("Message in orange", 1, 0);
@@ -26,6 +27,7 @@ int main()
 	std::cout << CFT::ColorToTextString(&color_text) << "Example Text" << CFT::Default_Color_Code << std::endl;
 	std::cout << CFT::ColorToBackgroundString(&color_text) << "Example Background" << CFT::Default_Color_Code << std::endl;
 
+	std::cout << "\033[40;400HHello";
 
 	return 0;
 }
