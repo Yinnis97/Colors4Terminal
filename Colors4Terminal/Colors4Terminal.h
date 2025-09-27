@@ -15,12 +15,17 @@ namespace CFT
 	};
 
 	// Constexpr for color codes that get used a lot.
-	constexpr const char* Default_Color_Code	=	"\033[0m";
-	constexpr const char* Error_Color_Code		=	"\033[31m";
-	constexpr const char* Warning_Color_Code	=	"\033[38;2;255;160;0m";
-	constexpr const char* Blinking_Code			=	"\033[5m";
-	constexpr const char* CrossedOut_Code		=	"\033[9m";
-	constexpr const char* BellNoise_Code		=	"\a";
+	namespace ANSI_CODE
+	{
+		constexpr const char* DefaultColor		 = "\033[0m";
+		constexpr const char* ErrorColor		 = "\033[31m";
+		constexpr const char* WarningColor		 = "\033[38;2;255;160;0m";
+		constexpr const char* Blinking			 = "\033[5m";
+		constexpr const char* CrossedOut		 = "\033[9m";
+		constexpr const char* Italic			 = "\033[3m";
+		constexpr const char* Underline			 = "\033[4m";
+		constexpr const char* BellNoise			 = "\a";
+	}
 
 	// **************************
 	// ******* FUNCTIONS ********
@@ -62,13 +67,13 @@ namespace CFT
 
 	void ErrorMessage(const char* msg, bool C_msg = 0, bool b_noise = 0, bool blink = 0)
 	{
-		std::cout << Error_Color_Code
-			<< (blink ? Blinking_Code : "")
+		std::cout << ANSI_CODE::ErrorColor
+			<< (blink ? ANSI_CODE::Blinking : "")
 			<< "Error : "
-			<< (C_msg ? Error_Color_Code : Default_Color_Code)
+			<< (C_msg ? ANSI_CODE::ErrorColor : ANSI_CODE::DefaultColor)
 			<< msg
-			<< (b_noise ? BellNoise_Code : "")
-			<< Default_Color_Code 
+			<< (b_noise ? ANSI_CODE::BellNoise : "")
+			<< ANSI_CODE::DefaultColor
 			<< std::endl;
 	}
 
@@ -85,12 +90,12 @@ namespace CFT
 
 	void WarningMessage(const char* msg, bool C_msg = 0, bool blink = 0)
 	{ 
-		std::cout << Warning_Color_Code 
-			<< (blink ? Blinking_Code : "") 
+		std::cout << ANSI_CODE::WarningColor
+			<< (blink ? ANSI_CODE::Blinking : "")
 			<< "Warning : "
-			<< (C_msg ? Warning_Color_Code : Default_Color_Code) 
+			<< (C_msg ? ANSI_CODE::WarningColor : ANSI_CODE::DefaultColor)
 			<< msg 
-			<< Default_Color_Code 
+			<< ANSI_CODE::DefaultColor
 			<< std::endl;
 	}
 
@@ -111,7 +116,7 @@ namespace CFT
 
 		std::cout << rgb_ss.str() 
 			<< msg 
-			<< Default_Color_Code 
+			<< ANSI_CODE::DefaultColor
 			<< std::endl;
 	}
 
@@ -133,7 +138,7 @@ namespace CFT
 		std::cout << text_ss.str() 
 			<< bg_ss.str()
 			<< msg
-			<< Default_Color_Code
+			<< ANSI_CODE::DefaultColor
 			<< std::endl;
 	}
 
@@ -175,6 +180,5 @@ namespace CFT
 
 		return rgb_ss.str();
 	}
-
 
 }

@@ -1,5 +1,7 @@
 # Colors4Terminal
 
+![Example](assets/Terminal.png)
+
 
 ## Note : This library is designed for personal use.
 
@@ -16,7 +18,7 @@
 
 5. Don't forget to use the namespace 'CFT'.
 
-6. Have Fun.
+6. For more information just read the comments in the header file.
 
 
 ## Example
@@ -30,8 +32,9 @@ int main()
 	CFT::EnableVirtualTerminal();
 
 	CFT::ErrorMessage("Message");
-	CFT::ErrorMessage("Message in red", 1, 0);
-	CFT::ErrorMessage("Error is blinking", 0, 1);
+	CFT::ErrorMessage("Message in red", 1, 0, 0);
+	CFT::ErrorMessage("Error is blinking", 0, 0, 1);
+	CFT::ErrorMessage("Error makes a bell sound", 0, 1, 0);
 
 	CFT::WarningMessage("Message");
 	CFT::WarningMessage("Message in orange", 1, 0);
@@ -49,7 +52,7 @@ int main()
 	std::cout << CFT::ColorToTextString(&color_text) << "Example Text" << CFT::Default_Color_Code << std::endl;
 	std::cout << CFT::ColorToBackgroundString(&color_text) << "Example Background" << CFT::Default_Color_Code << std::endl;
 
-
 	return 0;
 }
 ``` 
+
