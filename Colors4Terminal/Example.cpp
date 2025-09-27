@@ -16,7 +16,16 @@ int main()
 
 	CFT::ColorRGBMessage("RGB", 0, 50, 150);
 
-	std::cin.get();
+	CFT::Color color_background{ 40,150,0 };
+	CFT::Color color_text{ 100,0,250 };
+	CFT::ColorAll("Color All", &color_background, &color_text);
+
+
+	// Returning strings
+
+	std::cout << CFT::ColorToTextString(&color_text) << "Example Text" << CFT::Default_Color_Code << std::endl;
+	std::cout << CFT::ColorToBackgroundString(&color_text) << "Example Background" << CFT::Default_Color_Code << std::endl;
+
 
 	return 0;
 }
