@@ -51,7 +51,11 @@ int main()
 
 	std::cout << CFT::ColorToTextString(&color_text) << "Example Text" << CFT::Default_Color_Code << std::endl;
 	std::cout << CFT::ColorToBackgroundString(&color_text) << "Example Background" << CFT::Default_Color_Code << std::endl;
-
+	
+	std::cout << CFT::ANSI_CODE::Underline << "underline" << CFT::ANSI_CODE::DefaultColor << std::endl;
+	std::cout << CFT::ANSI_CODE::Italic << "italic" << CFT::ANSI_CODE::DefaultColor << std::endl;
+	std::cout << CFT::ANSI_CODE::CrossedOut << "crossed out" << CFT::ANSI_CODE::DefaultColor << std::endl;
+	
 	return 0;
 }
 ``` 
