@@ -1,8 +1,9 @@
 #pragma once
 #include "iostream"
 #include "sstream"
+#ifdef _WIN32
 #include "Windows.h"
-
+#endif
 
 namespace CFT
 {
@@ -46,14 +47,17 @@ namespace CFT
 
 	void EnableVirtualTerminal() 
 	{
+#ifdef _WIN32
 		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 		DWORD dwMode = 0;
 		GetConsoleMode(hOut, &dwMode);
 		SetConsoleMode(hOut, dwMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+#endif
 	}
 
 	bool SupportsANSI() 
 	{
+#ifdef _WIN32
 		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 		if (hOut == INVALID_HANDLE_VALUE) return false;
 
@@ -61,6 +65,9 @@ namespace CFT
 		if (!GetConsoleMode(hOut, &dwMode)) return false;
 
 		return (dwMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+#else
+		return true;
+#endif
 	}
 
 
