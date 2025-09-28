@@ -20,22 +20,13 @@ int main()
 
 	// Color the message
 	CFT::Color c{ 5,80,150 };
-	CFT::ColorMessage("RGB using r,g,b values", 5, 80, 150);
 	CFT::ColorMessage("RGB using struct", c);
 	CFT::ColorMessage("RGB using defined colors", CFT::COLOR::BLUE);
-
-	// Color the text and background.
-	CFT::Color cc{ 0,255,0 };
-	CFT::ColorAll("Color everything using structs", c, cc);
-	CFT::ColorAll("Color everything using defined colors", CFT::COLOR::RED, CFT::COLOR::GREEN);
 
 	// Generate your own color.
 	CFT::Color ccc{ 255,0,25 };
 	std::cout << CFT::GenerateColorText(ccc) << "Text color using Color struct as input" << CFT::COLOR::DEFAULT << std::endl;
-	std::cout << CFT::GenerateColorText(255, 0, 25) << "Text color using r, g, and b values as input" << CFT::COLOR::DEFAULT << std::endl;
-
 	std::cout << CFT::GenerateColorBackground(ccc) << "Background color using Color struct as input" << CFT::COLOR::DEFAULT << std::endl;
-	std::cout << CFT::GenerateColorBackground(255, 0, 25) << "Background color using r,g and b values as input" << CFT::COLOR::DEFAULT << std::endl;
 	
 	// Make your own combination.
 	std::cout << CFT::STYLE::UNDERLINE	<< "underline"		<< CFT::COLOR::DEFAULT << std::endl;
@@ -50,7 +41,15 @@ int main()
 	std::cout << CFT::COLOR::YELLOW		<< "Yellow"			<< CFT::COLOR::DEFAULT << std::endl;
 	std::cout << CFT::COLOR::PURPLE		<< "Purple"			<< CFT::COLOR::DEFAULT << std::endl;
 
+
+	// UTF-16
+	LPCWSTR  msg = L"Wide";
+	CFT::ErrorMessage(msg,1,0,1);
+	CFT::WarningMessage(msg, 1, 1);
+	CFT::ColorMessage(msg, CFT::COLOR_W::BLUE);
+
 	return 0;
 }
 
 
+ 
