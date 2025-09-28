@@ -41,7 +41,6 @@ int main()
 	std::cout << CFT::COLOR::YELLOW		<< "Yellow"			<< CFT::COLOR::DEFAULT << std::endl;
 	std::cout << CFT::COLOR::PURPLE		<< "Purple"			<< CFT::COLOR::DEFAULT << std::endl;
 
-
 	// UTF-16
 	LPCWSTR  msg = L"Wide";
 	CFT::ErrorMessage(msg,1,0,1);

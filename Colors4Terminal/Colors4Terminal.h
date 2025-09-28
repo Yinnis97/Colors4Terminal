@@ -187,10 +187,8 @@ namespace CFT
 	// Input 2 (Color&)			: The color struct.
 	void ColorMessage(const char* msg, Color& color)
 	{
-		std::stringstream rgb_ss;
-		rgb_ss << "\033[38;2;" << color.r << ";" << color.g << ";" << color.b << "m";
-
-		std::cout << rgb_ss.str()
+		std::cout << "\033[38;2;"
+			<< color.r << ";" << color.g << ";" << color.b << "m"
 			<< msg
 			<< COLOR::DEFAULT
 			<< std::endl;
@@ -209,7 +207,7 @@ namespace CFT
 
 #ifdef _WIN32
 	// Parameters :
-	// Input 1 (LPCWSTR)		: The message.
+	// Input 1 (LPCWSTR)		: The message. (UTF-16)
 	// Input 2 (Color&)			: The color struct.
 	void ColorMessage(LPCWSTR msg, Color& color)
 	{
@@ -222,7 +220,7 @@ namespace CFT
 
 	// Parameters :
 	// Input 1 (LPCWSTR)		: The message. (UTF-16)
-	// Input 2 (LPCWSTR)		: The color.
+	// Input 2 (LPCWSTR)		: The color. (UTF-16)
 	void ColorMessage(LPCWSTR msg, LPCWSTR COLOR)
 	{
 		std::wcout << COLOR
@@ -242,7 +240,7 @@ namespace CFT
 	//			 << Default_Color_Code << std::endl;
 	// 
 	// Important :
-	// Always use Default_Color_Code at the end to reset everything.
+	// Always use COLOR::DEFAULT at the end to reset everything.
 	
 	// Parameters : 
 	// Input 1 (Color* || int,int,int)		: The rgb values for the string.
