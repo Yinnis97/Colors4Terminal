@@ -6,7 +6,6 @@
 
 namespace CFT
 {
-	// Struct color to make things easier.
 	typedef struct Color
 	{
 		int r;
@@ -14,24 +13,34 @@ namespace CFT
 		int b;
 	};
 
-	// Constexpr for color codes that get used a lot.
-	namespace ANSI_CODE
+	
+	namespace STYLE
 	{
-		constexpr const char* DefaultColor		 = "\033[0m";
-		constexpr const char* ErrorColor		 = "\033[31m";
-		constexpr const char* WarningColor		 = "\033[38;2;255;160;0m";
-		constexpr const char* Blinking			 = "\033[5m";
-		constexpr const char* CrossedOut		 = "\033[9m";
-		constexpr const char* Italic			 = "\033[3m";
-		constexpr const char* Underline			 = "\033[4m";
-		constexpr const char* BellNoise			 = "\a";
+		constexpr const char* BLINK				 = "\033[5m";
+		constexpr const char* CROSSED			 = "\033[9m";
+		constexpr const char* ITALIC			 = "\033[3m";
+		constexpr const char* UNDERLINE			 = "\033[4m";
+		constexpr const char* BOLD				 = "\033[1m";
+		constexpr const char* BELLNOISE			 = "\a";
 	}
+
+	namespace COLOR
+	{
+		constexpr const char* DEFAULT			 = "\033[0m";
+		constexpr const char* RED				 = "\033[38;2;255;0;0m";
+		constexpr const char* ORANGE			 = "\033[38;2;255;150;0m";
+		constexpr const char* BLUE				 = "\033[38;2;5;80;150m";
+		constexpr const char* GREEN				 = "\033[38;2;0;255;0m";
+		constexpr const char* YELLOW			 = "\033[38;2;255;255;0m";
+		constexpr const char* PURPLE			 = "\033[38;2;75;0;150m";
+	}
+
 
 	// **************************
 	// ******* FUNCTIONS ********
 	// **************************
 
-
+	/********************************************************************************************/
 	// Needs to be called at the start.
 	// This makes sure the Virtual Terminal is Enabled.
 
@@ -54,98 +63,136 @@ namespace CFT
 		return (dwMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING);
 	}
 
+
+	/********************************************************************************************/
 	// Show Error message by default :
 	// Example : Error : "message".
 	// Where "Error : " is red and "message" is default color.
-	// 
+	
 	// Parameters :
 	// Input 1 (const char*)	: The Error message.
 	// Input 2 (bool)			: Turn message in same color as Error color.
 	// Input 3 (bool)			: Makes a sound as well as a msg.
 	// Input 4 (bool)			: Turn blinking on or off.
 	// Output (void)			: No return value.
-
 	void ErrorMessage(const char* msg, bool C_msg = 0, bool b_noise = 0, bool blink = 0)
 	{
-		std::cout << ANSI_CODE::ErrorColor
-			<< (blink ? ANSI_CODE::Blinking : "")
+		std::cout << COLOR::RED
+			<< (blink ? STYLE::BLINK : "")
 			<< "Error : "
-			<< (C_msg ? ANSI_CODE::ErrorColor : ANSI_CODE::DefaultColor)
+			<< (C_msg ? COLOR::RED : COLOR::DEFAULT)
 			<< msg
-			<< (b_noise ? ANSI_CODE::BellNoise : "")
-			<< ANSI_CODE::DefaultColor
+			<< (b_noise ? STYLE::BELLNOISE : "")
+			<< COLOR::DEFAULT
 			<< std::endl;
 	}
 
 
+	/********************************************************************************************/
 	// Show Warning message by default :
 	// Example : Warning : "message".
 	// Where Warning is red and message is default color.
-	// 
+	
 	// Parameters :
 	// Input 1 (const char*)	: The Warning message.
 	// Input 2 (bool)			: Turn message in same color as Warning color.
 	// Input 3 (bool)			: Turn blinking on or off.
 	// Output (void)			: No return value.
-
 	void WarningMessage(const char* msg, bool C_msg = 0, bool blink = 0)
 	{ 
-		std::cout << ANSI_CODE::WarningColor
-			<< (blink ? ANSI_CODE::Blinking : "")
+		std::cout << COLOR::ORANGE
+			<< (blink ? STYLE::BLINK : "")
 			<< "Warning : "
-			<< (C_msg ? ANSI_CODE::WarningColor : ANSI_CODE::DefaultColor)
+			<< (C_msg ? COLOR::ORANGE : COLOR::DEFAULT)
 			<< msg 
-			<< ANSI_CODE::DefaultColor
+			<< COLOR::DEFAULT
 			<< std::endl;
 	}
 
 
+	/********************************************************************************************/
 	// Show a message in specific rgb colors.
 	// Default all values are set to 0.
-	// 
+	
+	// Parameters :
+	// Input 1 (const char*)	: The message.
+	// Input 2 (Color&)			: The rgb values.
+	void ColorMessage(const char* msg, Color& color)
+	{
+		std::stringstream rgb_ss;
+		rgb_ss << "\033[38;2;" << color.r << ";" << color.g << ";" << color.b << "m";
+
+		std::cout << rgb_ss.str()
+			<< msg
+			<< COLOR::DEFAULT
+			<< std::endl;
+	}
+
 	// Parameters :
 	// Input 1 (const char*)	: The message.
 	// Input 2 (int)			: The value for R (red).
 	// Input 3 (int)			: The value for G (Green).
 	// Input 4 (int)			: The value for B (Blue).
-
-	void ColorRGBMessage(const char* msg, int r = 0, int g = 0, int b = 0)
+	void ColorMessage(const char* msg, int r = 0, int g = 0, int b = 0)
 	{
 		std::stringstream rgb_ss;
 		rgb_ss << "\033[38;2;" << r << ";" << g << ";" << b << "m";
 
 		std::cout << rgb_ss.str() 
 			<< msg 
-			<< ANSI_CODE::DefaultColor
+			<< COLOR::DEFAULT
 			<< std::endl;
 	}
 
-
-	// Shows the message and background in specific rgb colors.
-	// 
 	// Parameters :
 	// Input 1 (const char*)	: The message.
-	// Input 2 (Color*)			: The rgb values for the background.
-	// Input 3 (Color*)			: The rgb values for the text.
+	// Input 2 (Const char*)	: The color.
+	void ColorMessage(const char* msg, const char* COLOR)
+	{
+		std::cout << COLOR
+			<< msg
+			<< COLOR::DEFAULT
+			<< std::endl;
+	}
+	
 
-	void ColorAll(const char* msg, Color* bg, Color* text)
+	/********************************************************************************************/
+	// Shows the message and background in specific rgb colors.
+	
+	// Parameters :
+	// Input 1 (const char*)	: The message.
+	// Input 2 (Color&)			: The rgb values for the background.
+	// Input 3 (Color&)			: The rgb values for the text.
+	void ColorAll(const char* msg, Color& bg, Color& text)
 	{
 		std::stringstream text_ss;
 		std::stringstream bg_ss;
-		text_ss << "\033[38;2;" << text->r << ";" << text->g << ";" << text->b << "m";
-		bg_ss << "\033[48;2;" << bg->r << ";" << bg->g << ";" << bg->b << "m";
+		text_ss << "\033[38;2;" << text.r << ";" << text.g << ";" << text.b << "m";
+		bg_ss << "\033[48;2;" << bg.r << ";" << bg.g << ";" << bg.b << "m";
 
 		std::cout << text_ss.str() 
 			<< bg_ss.str()
 			<< msg
-			<< ANSI_CODE::DefaultColor
+			<< COLOR::DEFAULT
 			<< std::endl;
 	}
 
+	// Parameters :
+	// Input 1 (const char*)	: The message.
+	// Input 2 (const char*)	: The color for the background.
+	// Input 3 (const char*)	: The color for the text.
+	void ColorAll(const char* msg, const char* C_bg, const char* C_text)
+	{
+		std::cout << C_bg
+			<< C_text
+			<< msg
+			<< COLOR::DEFAULT
+			<< std::endl;
+	}
 
-
+	/********************************************************************************************/
 	// Instead of printing messages directly, we can return the correct string for any color.
-	// This allows you to create custom combinations by chainning multiple string together.
+	// This allows you to create custom combinations by chainning multiple strings together.
 	// 
 	// Example :
 	// std::cout << ColorToTextString(&color) << ColorToBackgroundString(&color)
@@ -154,31 +201,58 @@ namespace CFT
 	// 
 	// Important :
 	// Always use Default_Color_Code at the end to reset everything.
-
-
-	// Parameters : 
-	// Input 1 (Color*)			: The rgb values for the string.
-	// Output 1 (std::string)	: The string for the text color values from input 1.
 	
-	std::string ColorToTextString(Color* color)
+	// Parameters : 
+	// Input 1 (Color* || int,int,int)		: The rgb values for the string.
+	// Output 1 (std::string)				: The string for the text color values from input 1.
+	std::string GenerateColorText(Color& color)
 	{
 		std::stringstream rgb_ss;
-		rgb_ss << "\033[38;2;" << color->r << ";" << color->g << ";" << color->b << "m";
+		rgb_ss << "\033[38;2;" << color.r << ";" << color.g << ";" << color.b << "m";
 
 		return rgb_ss.str();
 	}
-
 
 	// Parameters : 
-	// Input 1 (Color*)			: The rgb values for the string.
-	// Output 1 (std::string)	: The string for the background color values from input 1.
-
-	std::string ColorToBackgroundString(Color* color)
+	// Input 1 (int)						: The r value of the output string.
+	// Input 2 (int)						: The g value of the output string.
+	// Input 3 (int)						: The b value of the output string.
+	// Output 1 (std::string)				: The string for the text color values from input 1.
+	std::string GenerateColorText(int r = 0, int g = 0, int b = 0)
 	{
 		std::stringstream rgb_ss;
-		rgb_ss << "\033[48;2;" << color->r << ";" << color->g << ";" << color->b << "m";
+		rgb_ss << "\033[38;2;" << r << ";" << g << ";" << b << "m";
 
 		return rgb_ss.str();
 	}
+
+
+	/********************************************************************************************/
+	// Parameters : 
+	// Input 1 (Color*)							: The rgb values for the string.
+	// Output 1 (std::string)					: The string for the background color values from input 1.
+	std::string GenerateColorBackground(Color& color)
+	{
+		std::stringstream rgb_ss;
+		rgb_ss << "\033[48;2;" << color.r << ";" << color.g << ";" << color.b << "m";
+
+		return rgb_ss.str();
+	}
+
+	// Parameters : 
+	// Input 1 (int)						: The r value of the output string.
+	// Input 2 (int)						: The g value of the output string.
+	// Input 3 (int)						: The b value of the output string.
+	// Output 1 (std::string)				: The string for the text color values from input 1.
+	std::string GenerateColorBackground(int r = 0, int g = 0, int b = 0)
+	{
+		std::stringstream rgb_ss;
+		rgb_ss << "\033[48;2;" << r << ";" << g << ";" << b << "m";
+
+		return rgb_ss.str();
+	}
+
+
+	/********************************************************************************************/
 
 }
