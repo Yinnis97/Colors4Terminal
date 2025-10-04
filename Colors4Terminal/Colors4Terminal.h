@@ -289,4 +289,9 @@ namespace CFT
 		float z;
 	};
 	
+	// Easy to use square function
+	template<typename T>
+	T sqr(T x) { return x * x; }
+
+
 }
