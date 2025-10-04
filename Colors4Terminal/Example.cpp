@@ -47,6 +47,7 @@ int main()
 	CFT::WarningMessage(msg, 1, 1);
 	CFT::ColorMessage(msg, CFT::COLOR_W::BLUE);
 
+
 	return 0;
 }
 

@@ -13,7 +13,12 @@ namespace CFT
 		int g;
 		int b;
 	};
-	
+
+	namespace RANDOM
+	{
+		constexpr const float PI = 3.14159265359;
+	}
+
 	namespace STYLE
 	{
 		constexpr const char* BLINK				 = "\033[5m";
@@ -268,4 +273,20 @@ namespace CFT
 
 
 	/********************************************************************************************/
+
+	// Random extra stuff
+
+	typedef struct float2D
+	{
+		float x;
+		float y;
+	};
+
+	typedef struct float3D
+	{
+		float x;
+		float y;
+		float z;
+	};
+	
 }
