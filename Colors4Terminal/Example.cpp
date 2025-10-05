@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Colors4Terminal.h"
 
-int main()
+void Example()
 {
 	CFT::EnableVirtualTerminal();
 	std::cout << "Does my terimnal support Ansi ? " << (CFT::SupportsANSI() ? "Yes! " : "Nope! ") << std::endl;
@@ -27,26 +27,30 @@ int main()
 	CFT::Color ccc{ 255,0,25 };
 	std::cout << CFT::GenerateColorText(ccc) << "Text color using Color struct as input" << CFT::COLOR::DEFAULT << std::endl;
 	std::cout << CFT::GenerateColorBackground(ccc) << "Background color using Color struct as input" << CFT::COLOR::DEFAULT << std::endl;
-	
-	// Make your own combination.
-	std::cout << CFT::STYLE::UNDERLINE	<< "underline"		<< CFT::COLOR::DEFAULT << std::endl;
-	std::cout << CFT::STYLE::ITALIC		<< "italic"			<< CFT::COLOR::DEFAULT << std::endl;
-	std::cout << CFT::STYLE::CROSSED	<< "crossed out"	<< CFT::COLOR::DEFAULT << std::endl;
-	std::cout << CFT::STYLE::BOLD		<< "bold"			<< CFT::COLOR::DEFAULT << std::endl;
 
-	std::cout << CFT::COLOR::BLUE		<< "Blue"			<< CFT::COLOR::DEFAULT << std::endl;
-	std::cout << CFT::COLOR::GREEN		<< "Green"			<< CFT::COLOR::DEFAULT << std::endl;
-	std::cout << CFT::COLOR::RED		<< "Red"			<< CFT::COLOR::DEFAULT << std::endl;
-	std::cout << CFT::COLOR::ORANGE		<< "Orange"			<< CFT::COLOR::DEFAULT << std::endl;
-	std::cout << CFT::COLOR::YELLOW		<< "Yellow"			<< CFT::COLOR::DEFAULT << std::endl;
-	std::cout << CFT::COLOR::PURPLE		<< "Purple"			<< CFT::COLOR::DEFAULT << std::endl;
+	// Make your own combination.
+	std::cout << CFT::STYLE::UNDERLINE << "underline" << CFT::COLOR::DEFAULT << std::endl;
+	std::cout << CFT::STYLE::ITALIC << "italic" << CFT::COLOR::DEFAULT << std::endl;
+	std::cout << CFT::STYLE::CROSSED << "crossed out" << CFT::COLOR::DEFAULT << std::endl;
+	std::cout << CFT::STYLE::BOLD << "bold" << CFT::COLOR::DEFAULT << std::endl;
+
+	std::cout << CFT::COLOR::BLUE << "Blue" << CFT::COLOR::DEFAULT << std::endl;
+	std::cout << CFT::COLOR::GREEN << "Green" << CFT::COLOR::DEFAULT << std::endl;
+	std::cout << CFT::COLOR::RED << "Red" << CFT::COLOR::DEFAULT << std::endl;
+	std::cout << CFT::COLOR::ORANGE << "Orange" << CFT::COLOR::DEFAULT << std::endl;
+	std::cout << CFT::COLOR::YELLOW << "Yellow" << CFT::COLOR::DEFAULT << std::endl;
+	std::cout << CFT::COLOR::PURPLE << "Purple" << CFT::COLOR::DEFAULT << std::endl;
 
 	// UTF-16
 	LPCWSTR  msg = L"Wide";
-	CFT::ErrorMessage(msg,1,0,1);
+	CFT::ErrorMessage(msg, 1, 0, 1);
 	CFT::WarningMessage(msg, 1, 1);
 	CFT::ColorMessage(msg, CFT::COLOR_W::BLUE);
+}
 
+int main()
+{
+	Example();
 	
 	return 0;
 }

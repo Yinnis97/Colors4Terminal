@@ -75,7 +75,7 @@ namespace CFT
 	// Needs to be called at the start.
 	// This makes sure the Virtual Terminal is Enabled.
 
-	void EnableVirtualTerminal() 
+	inline void EnableVirtualTerminal()
 	{
 #ifdef _WIN32
 		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -85,7 +85,7 @@ namespace CFT
 #endif
 	}
 
-	bool SupportsANSI() 
+	inline bool SupportsANSI()
 	{
 #ifdef _WIN32
 		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -112,7 +112,7 @@ namespace CFT
 	// Input 3 (bool)			: Makes a sound as well as a msg.
 	// Input 4 (bool)			: Turn blinking on or off.
 	// Output (void)			: No return value.
-	void ErrorMessage(const char* msg, bool C_msg = 0, bool b_noise = 0, bool blink = 0)
+	inline void ErrorMessage(const char* msg, bool C_msg = 0, bool b_noise = 0, bool blink = 0)
 	{
 		std::cout << COLOR::RED
 			<< (blink ? STYLE::BLINK : "")
@@ -131,7 +131,7 @@ namespace CFT
 	// Input 3 (bool)			: Makes a sound as well as a msg.
 	// Input 4 (bool)			: Turn blinking on or off.
 	// Output (void)			: No return value.
-	void ErrorMessage(LPCWSTR  msg, bool C_msg = 0, bool b_noise = 0, bool blink = 0)
+	inline void ErrorMessage(LPCWSTR  msg, bool C_msg = 0, bool b_noise = 0, bool blink = 0)
 	{
 		std::wcout << COLOR_W::RED
 			<< (blink ? STYLE_W::BLINK : L"")
@@ -154,7 +154,7 @@ namespace CFT
 	// Input 2 (bool)			: Turn message in same color as Warning color.
 	// Input 3 (bool)			: Turn blinking on or off.
 	// Output (void)			: No return value.
-	void WarningMessage(const char* msg, bool C_msg = 0, bool blink = 0)
+	inline void WarningMessage(const char* msg, bool C_msg = 0, bool blink = 0)
 	{ 
 		std::cout << COLOR::ORANGE
 			<< (blink ? STYLE::BLINK : "")
@@ -171,7 +171,7 @@ namespace CFT
 	// Input 2 (bool)			: Turn message in same color as Warning color.
 	// Input 3 (bool)			: Turn blinking on or off.
 	// Output (void)			: No return value.
-	void WarningMessage(LPCWSTR msg, bool C_msg = 0, bool blink = 0)
+	inline void WarningMessage(LPCWSTR msg, bool C_msg = 0, bool blink = 0)
 	{
 		std::wcout << COLOR_W::ORANGE
 			<< (blink ? STYLE_W::BLINK : L"")
@@ -190,7 +190,7 @@ namespace CFT
 	// Parameters :
 	// Input 1 (const char*)	: The message.
 	// Input 2 (Color&)			: The color struct.
-	void ColorMessage(const char* msg, Color& color)
+	inline void ColorMessage(const char* msg, Color& color)
 	{
 		std::cout << "\033[38;2;"
 			<< color.r << ";" << color.g << ";" << color.b << "m"
@@ -202,7 +202,7 @@ namespace CFT
 	// Parameters :
 	// Input 1 (const char*)	: The message.
 	// Input 2 (Const char*)	: The color.
-	void ColorMessage(const char* msg, const char* COLOR)
+	inline void ColorMessage(const char* msg, const char* COLOR)
 	{
 		std::cout << COLOR
 			<< msg
@@ -214,7 +214,7 @@ namespace CFT
 	// Parameters :
 	// Input 1 (LPCWSTR)		: The message. (UTF-16)
 	// Input 2 (Color&)			: The color struct.
-	void ColorMessage(LPCWSTR msg, Color& color)
+	inline void ColorMessage(LPCWSTR msg, Color& color)
 	{
 		std::wcout << L"\033[38;2;"
 			<< color.r << L";" << color.g << L";" << color.b << L"m"
@@ -226,7 +226,7 @@ namespace CFT
 	// Parameters :
 	// Input 1 (LPCWSTR)		: The message. (UTF-16)
 	// Input 2 (LPCWSTR)		: The color. (UTF-16)
-	void ColorMessage(LPCWSTR msg, LPCWSTR COLOR)
+	inline void ColorMessage(LPCWSTR msg, LPCWSTR COLOR)
 	{
 		std::wcout << COLOR
 			<< msg
@@ -250,7 +250,7 @@ namespace CFT
 	// Parameters : 
 	// Input 1 (Color* || int,int,int)		: The rgb values for the string.
 	// Output 1 (std::string)				: The string for the text color values from input 1.
-	std::string GenerateColorText(Color& color)
+	inline std::string GenerateColorText(Color& color)
 	{
 		std::stringstream rgb_ss;
 		rgb_ss << "\033[38;2;" << color.r << ";" << color.g << ";" << color.b << "m";
@@ -263,7 +263,7 @@ namespace CFT
 	// Parameters : 
 	// Input 1 (Color*)							: The rgb values for the string.
 	// Output 1 (std::string)					: The string for the background color values from input 1.
-	std::string GenerateColorBackground(Color& color)
+	inline std::string GenerateColorBackground(Color& color)
 	{
 		std::stringstream rgb_ss;
 		rgb_ss << "\033[48;2;" << color.r << ";" << color.g << ";" << color.b << "m";
@@ -291,7 +291,7 @@ namespace CFT
 	
 	// Easy to use square function
 	template<typename T>
-	T sqr(T x) { return x * x; }
+	inline T sqr(T x) { return x * x; }
 
 
 }
