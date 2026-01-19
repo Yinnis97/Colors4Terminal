@@ -25,20 +25,19 @@
 ## Setup Instructions
 
 ### Usage
-1. Download the **Colors4Terminal.h** or **KYCFT.h** file.	
+
+1. Download the **KYCFT.h** file.
 
 2. Add it to your project.
 
-3. Include the header in your code : **Colors4Terminal.h** or **KYCFT.h**.
-	- I personally use **KYCFT.h**.
+3. Include the header in your code : **KYCFT.h**.
 
 4. Optional : Call **EnableVirtualTerminal()** at the start of your program.
- 	- In most cases this isn't required, but it ensures compatibility.
+	- In most cases this isn't required, but it ensures compatibility.
 
 5. Don't forget to use the namespace 'CFT'.
 
 6. For more information just read the comments in the header file.
-
 
 ## Known Issues
 
