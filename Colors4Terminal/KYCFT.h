@@ -60,7 +60,6 @@ namespace CFT
 #define PrintColor(msg,color) CFT::impl::_ColorMessage(msg,color)
 
 
-
 	/********************************************************************************************/
 	// Implementation functions.
 	// Do not use. Use the predefined function macro's.
@@ -104,7 +103,8 @@ namespace CFT
 			return file;
 		}
 
-		inline void _ErrorMessage(const char* msg, const char* file, int line)
+		template<typename T>
+		inline void _ErrorMessage(T msg, const char* file, int line)
 		{
 			std::cout << COLOR::RED
 				<< "Error ["
@@ -115,7 +115,8 @@ namespace CFT
 				<< std::endl;
 		}
 
-		inline void _WarningMessage(const char* msg, const char* file, int line)
+		template<typename T>
+		inline void _WarningMessage(T msg, const char* file, int line)
 		{
 			std::cout << COLOR::ORANGE
 				<< "Warning ["
@@ -126,7 +127,8 @@ namespace CFT
 				<< std::endl;
 		}
 
-		inline void _DebugMessage(const char* msg, const char* file, int line)
+		template<typename T>
+		inline void _DebugMessage(T msg, const char* file, int line)
 		{
 			std::cout << COLOR::BLUE
 				<< "Debug ["
@@ -137,7 +139,8 @@ namespace CFT
 				<< std::endl;
 		}
 
-		inline void _ColorMessage(const char* msg, const char* COLOR)
+		template<typename T>
+		inline void _ColorMessage(T msg, const char* COLOR)
 		{
 			std::cout << COLOR
 				<< msg
