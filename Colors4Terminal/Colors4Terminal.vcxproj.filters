@@ -23,7 +23,7 @@
     <ClInclude Include="Colors4Terminal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CFT.h">
+    <ClInclude Include="KYCFT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

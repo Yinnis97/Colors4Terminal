@@ -57,16 +57,16 @@
 	void Example2()
 	{
 		// Error Message
-		CFT::ErrorMessage("Error Message");
+		PrintError("Error Message");
 
 		// Warning Message
-		CFT::WarningMessage("Warning Message");
+		PrintWarning("Warning Message");
 
 		// Debug Message
-		CFT::DebugMessage("Debug Message");
+		PrintDebug("Debug Message");
 		
 		// Colored Message
-		CFT::ColorMessage("Green Text", CFT::COLOR::GREEN);
+		PrintColor("Green Text", CFT::COLOR::GREEN);
 	}
 #endif
 

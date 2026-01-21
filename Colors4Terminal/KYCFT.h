@@ -31,36 +31,66 @@ namespace CFT
 	/********************************************************************************************/
 	// Can be called at the start.
 	// This makes sure the Virtual Terminal is Enabled.
-
-	inline void EnableVirtualTerminal()
-	{
-#ifdef _WIN32
-		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-		DWORD dwMode = 0;
-		GetConsoleMode(hOut, &dwMode);
-		SetConsoleMode(hOut, dwMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
-#endif
-	}
-
-	inline bool SupportsANSI()
-	{
-#ifdef _WIN32
-		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-		if (hOut == INVALID_HANDLE_VALUE) return false;
-
-		DWORD dwMode = 0;
-		if (!GetConsoleMode(hOut, &dwMode)) return false;
-
-		return (dwMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING);
-#else
-		return true;
-#endif
-	}
+#define EnableVirtualTerminal() CFT::impl::_EnableVirtualTerminal()
+#define SupportsANSI() CFT::impl::_SupportsANSI()
 
 	/********************************************************************************************/
-	// Helper function to return only the file name not the entire path.
+	// Show Error Message
+	// Parameters :
+	// Input 1 (const char*)	: The Error message.
+#define PrintError(msg) CFT::impl::_ErrorMessage(msg, __FILE__, __LINE__)
+
+	/********************************************************************************************/
+	// Show Warning Message
+	// Parameters :
+	// Input 1 (const char*)	: The Warning message.
+#define PrintWarning(msg) CFT::impl::_WarningMessage(msg, __FILE__, __LINE__)
+
+	/********************************************************************************************/
+	// Show Debug Message
+	// Parameters :
+	// Input 1 (const char*)	: The Debug message.
+#define PrintDebug(msg) CFT::impl::_DebugMessage(msg, __FILE__, __LINE__)
+
+	/********************************************************************************************/
+	// Show a Message in specific rgb colors.
+	// Parameters :
+	// Input 1 (const char*)	: The message.
+	// Input 2 (Const char*)	: The color.
+#define PrintColor(msg,color) CFT::impl::_ColorMessage(msg,color)
+
+
+
+	/********************************************************************************************/
+	// Implementation functions.
+	// Do not use. Use the predefined function macro's.
 	namespace impl
 	{
+		inline void _EnableVirtualTerminal()
+		{
+#ifdef _WIN32
+			HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+			DWORD dwMode = 0;
+			GetConsoleMode(hOut, &dwMode);
+			SetConsoleMode(hOut, dwMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+#endif
+		}
+
+		inline bool _SupportsANSI()
+		{
+#ifdef _WIN32
+			HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+			if (hOut == INVALID_HANDLE_VALUE) return false;
+
+			DWORD dwMode = 0;
+			if (!GetConsoleMode(hOut, &dwMode)) return false;
+
+			return (dwMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+#else
+			return true;
+#endif
+		}
+
 		inline const char* _GetFileName(const char* path)
 		{
 			const char* file = path;
@@ -73,73 +103,46 @@ namespace CFT
 			}
 			return file;
 		}
+
+		inline void _ErrorMessage(const char* msg, const char* file, int line)
+		{
+			std::cout << COLOR::RED
+				<< "Error ["
+				<< impl::_GetFileName(file)
+				<< ":" << line << "] : "
+				<< COLOR::DEFAULT
+				<< msg
+				<< std::endl;
+		}
+
+		inline void _WarningMessage(const char* msg, const char* file, int line)
+		{
+			std::cout << COLOR::ORANGE
+				<< "Warning ["
+				<< impl::_GetFileName(file)
+				<< ":" << line << "] : "
+				<< COLOR::DEFAULT
+				<< msg
+				<< std::endl;
+		}
+
+		inline void _DebugMessage(const char* msg, const char* file, int line)
+		{
+			std::cout << COLOR::BLUE
+				<< "Debug ["
+				<< impl::_GetFileName(file) << ":"
+				<< line << "] : "
+				<< COLOR::DEFAULT
+				<< msg
+				<< std::endl;
+		}
+
+		inline void _ColorMessage(const char* msg, const char* COLOR)
+		{
+			std::cout << COLOR
+				<< msg
+				<< COLOR::DEFAULT
+				<< std::endl;
+		}
 	}
-
-	/********************************************************************************************/
-	// Show Error message by default :
-	// Example : Error : "message".
-	// Where "Error : " is red and "message" is default color.
-
-	// Parameters :
-	// Input 1 (const char*)	: The Error message.
-	inline void _ErrorMessage(const char* msg, const char* file, int line)
-	{
-		std::cout << COLOR::RED
-			<< "Error [" << impl::_GetFileName(file) << ":" << line << "] : "
-			<< COLOR::DEFAULT
-			<< msg
-			<< std::endl;
-	}
-#define ErrorMessage(msg) _ErrorMessage(msg, __FILE__, __LINE__)
-
-	/********************************************************************************************/
-	// Show Warning message by default :
-	// Example : Warning : "message".
-	// Where Warning is red and message is default color.
-
-	// Parameters :
-	// Input 1 (const char*)	: The Warning message.
-	inline void _WarningMessage(const char* msg, const char* file, int line)
-	{
-		std::cout << COLOR::ORANGE
-			<< "Warning [" << impl::_GetFileName(file) << ":" << line << "] : "
-			<< COLOR::DEFAULT
-			<< msg
-			<< std::endl;
-	}
-#define WarningMessage(msg) _WarningMessage(msg, __FILE__, __LINE__)
-
-	/********************************************************************************************/
-	// Show Warning message by default :
-	// Example : Warning : "message".
-	// Where Warning is red and message is default color.
-
-	// Parameters :
-	// Input 1 (const char*)	: The Debug message.
-	inline void _DebugMessage(const char* msg,const char* file, int line)
-	{
-		std::cout << COLOR::BLUE
-			<< "Debug [" << impl::_GetFileName(file) << ":" << line << "] : "
-			<< COLOR::DEFAULT
-			<< msg
-			<< std::endl;
-	}
-#define DebugMessage(msg) _DebugMessage(msg, __FILE__, __LINE__)
-
-	/********************************************************************************************/
-	// Show a message in specific rgb colors.
-	// Default all values are set to 0.
-
-	// Parameters :
-	// Input 1 (const char*)	: The message.
-	// Input 2 (Const char*)	: The color.
-	inline void _ColorMessage(const char* msg, const char* COLOR)
-	{
-		std::cout << COLOR
-			<< msg
-			<< COLOR::DEFAULT
-			<< std::endl;
-	}
-#define ColorMessage(msg,color) _ColorMessage(msg,color)
-
 } // End namespace CFT
